@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="94b4bbc0-78b0-4b21-a5c2-0e2d5a166313" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/EasyBI.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.editorconfig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.eslintrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.husky/commit-msg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.husky/pre-commit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.prettierignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/.prettierrc.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/config/config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/config/defaultSettings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/config/oneapi.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/config/proxy.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/config/routes.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/jest.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/jsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/mock/listTableList.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/mock/notices.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/mock/requestRecord.mock.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/mock/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/mock/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/pnpm-lock.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/CNAME" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/icons/icon-128x128.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/icons/icon-192x192.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/icons/icon-512x512.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/pro_icon.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/public/scripts/loading.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/access.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/app.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/components/Footer/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/components/HeaderDropdown/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/components/RightContent/AvatarDropdown.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/components/RightContent/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/components/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/global.less" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/global.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/bn-BD/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/en-US/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/fa-IR/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/id-ID/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/ja-JP/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/pt-BR/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-CN/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/globalHeader.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/menu.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/pages.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/pwa.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/settingDrawer.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/locales/zh-TW/settings.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/404.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/Admin.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/TableList/components/UpdateForm.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/TableList/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/User/Login/__snapshots__/login.test.tsx.snap" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/User/Login/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/User/Login/login.test.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/pages/Welcome.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/requestErrorConfig.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/service-worker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/ant-design-pro/api.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/ant-design-pro/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/ant-design-pro/login.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/ant-design-pro/typings.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/swagger/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/swagger/pet.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/swagger/store.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/swagger/typings.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/services/swagger/user.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/src/typings.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/tests/setupTests.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/types/cache/cache.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/types/cache/login.cache.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/types/cache/mock/login.mock.cache.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/types/cache/mock/mock.cache.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bi-frontend/types/index.d.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
+  <component name="ProjectId" id="2dCHbsJOGhqohrdUUr9mzem4cBU" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/CS/project/bi/EasyBI/EasyBI-frontend",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "npm.i18n-remove.executor": "Run",
+    "npm.start.executor": "Run",
+    "ts.external.directory.path": "D:\\CS\\project\\bi\\EasyBI\\bi-frontend\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="npm.start">
+    <configuration name="i18n-remove" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/bi-frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="i18n-remove" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/bi-frontend/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="start" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.start" />
+        <item itemvalue="npm.i18n-remove" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="94b4bbc0-78b0-4b21-a5c2-0e2d5a166313" name="Changes" comment="" />
+      <created>1709505216287</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709505216287</updated>
+      <workItem from="1709505217490" duration="650000" />
+      <workItem from="1709772020677" duration="654000" />
+      <workItem from="1709773319132" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+  </component>
+</project>
