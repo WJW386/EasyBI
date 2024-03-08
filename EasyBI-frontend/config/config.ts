@@ -136,8 +136,8 @@ export default defineConfig({
     },
     {
       requestLibPath: "import { request } from '@umijs/max'",
-      schemaPath: 'http://localhost:8101/api/v2/api-docs',
-      projectName: 'EasyBI',
+      schemaPath: 'https://gw.alipayobjects.com/os/antfincdn/CA1dOm%2631B/openapi.json',
+      projectName: 'swagger',
     },
   ],
   mfsu: {
