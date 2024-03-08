@@ -1,30 +1,38 @@
 package com.bi.springbootinit.controller;
 
-import cn.hutool.json.JSONUtil;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bi.springbootinit.annotation.AuthCheck;
 import com.bi.springbootinit.common.BaseResponse;
 import com.bi.springbootinit.common.DeleteRequest;
 import com.bi.springbootinit.common.ErrorCode;
 import com.bi.springbootinit.common.ResultUtils;
+import com.bi.springbootinit.constant.CommonConstant;
 import com.bi.springbootinit.constant.UserConstant;
 import com.bi.springbootinit.exception.BusinessException;
 import com.bi.springbootinit.exception.ThrowUtils;
 import com.bi.springbootinit.model.dto.chart.ChartAddRequest;
-import com.bi.springbootinit.model.dto.chart.ChartEditRequest;
 import com.bi.springbootinit.model.dto.chart.ChartQueryRequest;
 import com.bi.springbootinit.model.dto.chart.ChartUpdateRequest;
+import com.bi.springbootinit.model.dto.chart.GenChartRequest;
+import com.bi.springbootinit.model.dto.file.UploadFileRequest;
 import com.bi.springbootinit.model.entity.Chart;
 import com.bi.springbootinit.model.entity.User;
+import com.bi.springbootinit.model.enums.FileUploadBizEnum;
 import com.bi.springbootinit.service.ChartService;
 import com.bi.springbootinit.service.UserService;
+import com.bi.springbootinit.utils.ExcelUtils;
+import com.bi.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
+import java.io.File;
 
 /**
  * 生成图表接口
@@ -130,6 +138,80 @@ public class ChartController {
         }
         return ResultUtils.success(chart);
     }
+
+    /**
+     * 生成图表
+     *
+     * @param multipartFile 上传的文件
+     * @param genChartRequest 生成图表所需信息
+     * @param request 前端请求
+     * @return 生成图表
+     */
+    @PostMapping("/gen")
+    public BaseResponse<String> genChart(@RequestPart("file") MultipartFile multipartFile,
+                                         GenChartRequest genChartRequest, HttpServletRequest request) {
+        Long id = genChartRequest.getId();
+        String chartType = genChartRequest.getChartType();
+        String goal = genChartRequest.getGoal();
+        String chartName = genChartRequest.getChartName();
+
+        ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
+        ThrowUtils.throwIf(StringUtils.isNotBlank(chartName) && chartName.length() >= 100,
+                ErrorCode.PARAMS_ERROR, "表名过长");
+
+        String data = ExcelUtils.excelToCsv(multipartFile);
+
+        User loginUser = userService.getLoginUser(request);
+        // 文件目录：根据业务、用户来划分
+        String uuid = RandomStringUtils.randomAlphanumeric(8);
+        String filename = uuid + "-" + multipartFile.getOriginalFilename();
+        File file = null;
+        try {
+            return ResultUtils.success("");
+        } catch (Exception e) {
+//            log.error("file upload error, filepath = " + filepath, e);
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "上传失败");
+        } finally {
+            if (file != null) {
+                // 删除临时文件
+                boolean delete = file.delete();
+                if (!delete) {
+//                    log.error("file delete error, filepath = {}", filepath);
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取查询包装类
+     *
+     * @param chartQueryRequest 查询请求
+     * @return 查询图表包装类
+     */
+    private QueryWrapper<Chart> getQueryWrapper(ChartQueryRequest chartQueryRequest) {
+        QueryWrapper<Chart> queryWrapper = new QueryWrapper<>();
+        if (chartQueryRequest == null) {
+            return queryWrapper;
+        }
+        Long id = chartQueryRequest.getId();
+        String chartName = chartQueryRequest.getChartName();
+        String goal = chartQueryRequest.getGoal();
+        String chartType = chartQueryRequest.getChartType();
+        Long userId = chartQueryRequest.getUserId();
+        String sortField = chartQueryRequest.getSortField();
+        String sortOrder = chartQueryRequest.getSortOrder();
+
+        queryWrapper.eq(id != null && id > 0, "id", id);
+        queryWrapper.like(StringUtils.isNotBlank(chartName), "chart_name", chartName);
+        queryWrapper.eq(StringUtils.isNotBlank(goal), "goal", goal);
+        queryWrapper.eq(StringUtils.isNotBlank(chartType), "chartType", chartType);
+        queryWrapper.eq(ObjectUtils.isNotEmpty(userId), "userId", userId);
+        queryWrapper.eq("isDelete", false);
+        queryWrapper.orderBy(SqlUtils.validSortField(sortField), sortOrder.equals(CommonConstant.SORT_ORDER_ASC),
+                sortField);
+        return queryWrapper;
+    }
+
 
 //    /**
 //     * 分页获取列表（仅管理员）

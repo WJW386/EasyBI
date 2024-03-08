@@ -3,9 +3,9 @@
 
 declare namespace API {
   type CurrentUser = {
-    name?: string;
-    avatar?: string;
-    userid?: string;
+    userName?: string;
+    userAvatar?: string;
+    id?: string;
     email?: string;
     signature?: string;
     title?: string;
@@ -98,4 +98,5 @@ declare namespace API {
     description?: string;
     type?: NoticeIconItemType;
   };
+
 }
