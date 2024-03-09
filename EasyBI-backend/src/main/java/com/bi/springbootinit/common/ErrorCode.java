@@ -32,6 +32,10 @@ public enum ErrorCode {
      */
     FORBIDDEN_ERROR(40300, "禁止访问"),
     /**
+     * 过多请求
+     */
+    TOO_MANY_REQUEST(42900, "请求过于频繁"),
+    /**
      * 系统内部异常
      */
     SYSTEM_ERROR(50000, "系统内部异常"),

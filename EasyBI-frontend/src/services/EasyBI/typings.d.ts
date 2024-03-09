@@ -1,4 +1,10 @@
 declare namespace API {
+  type BaseResponseBIResponse_ = {
+    code?: number;
+    data?: BIResponse;
+    message?: string;
+  };
+
   type BaseResponseBoolean_ = {
     code?: number;
     data?: boolean;
@@ -26,6 +32,12 @@ declare namespace API {
   type BaseResponseLong_ = {
     code?: number;
     data?: number;
+    message?: string;
+  };
+
+  type BaseResponsePageChart_ = {
+    code?: number;
+    data?: PageChart_;
     message?: string;
   };
 
@@ -59,12 +71,6 @@ declare namespace API {
     message?: string;
   };
 
-  type BaseResponseString_ = {
-    code?: number;
-    data?: string;
-    message?: string;
-  };
-
   type BaseResponseUser_ = {
     code?: number;
     data?: User;
@@ -75,6 +81,12 @@ declare namespace API {
     code?: number;
     data?: UserVO;
     message?: string;
+  };
+
+  type BIResponse = {
+    chartId?: number;
+    genChart?: string;
+    genResult?: string;
   };
 
   type Chart = {
@@ -99,6 +111,23 @@ declare namespace API {
     goal?: string;
   };
 
+  type ChartQueryRequest = {
+    chartData?: string;
+    chartName?: string;
+    chartType?: string;
+    createTime?: string;
+    current?: number;
+    genChart?: string;
+    genResult?: string;
+    goal?: string;
+    id?: number;
+    pageSize?: number;
+    sortField?: string;
+    sortOrder?: string;
+    updateTime?: string;
+    userId?: number;
+  };
+
   type ChartUpdateRequest = {
     content?: string;
     id?: number;
@@ -107,6 +136,13 @@ declare namespace API {
   };
 
   type DeleteRequest = {
+    id?: number;
+  };
+
+  type genChartUsingPOSTParams = {
+    chartName?: string;
+    chartType?: string;
+    goal?: string;
     id?: number;
   };
 
@@ -143,6 +179,19 @@ declare namespace API {
   type OrderItem = {
     asc?: boolean;
     column?: string;
+  };
+
+  type PageChart_ = {
+    countId?: string;
+    current?: number;
+    maxLimit?: number;
+    optimizeCountSql?: boolean;
+    orders?: OrderItem[];
+    pages?: number;
+    records?: Chart[];
+    searchCount?: boolean;
+    size?: number;
+    total?: number;
   };
 
   type PagePost_ = {
@@ -276,10 +325,6 @@ declare namespace API {
     updateTime?: string;
     user?: UserVO;
     userId?: number;
-  };
-
-  type uploadFileUsingPOSTParams = {
-    biz?: string;
   };
 
   type User = {

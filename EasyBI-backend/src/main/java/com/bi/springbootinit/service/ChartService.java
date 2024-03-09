@@ -1,5 +1,7 @@
 package com.bi.springbootinit.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.bi.springbootinit.model.dto.chart.ChartQueryRequest;
 import com.bi.springbootinit.model.entity.Chart;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -10,4 +12,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ChartService extends IService<Chart> {
 
+    /**
+     * 获取查询包装类
+     *
+     * @param chartQueryRequest 查询请求
+     * @return 查询图表包装类
+     */
+   QueryWrapper<Chart> getQueryWrapper(ChartQueryRequest chartQueryRequest);
 }
