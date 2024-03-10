@@ -64,12 +64,11 @@ const MyChartPage: React.FC = () => {
           onSearch={(value) => {
             setSearchParams({
               ...initSearchParams,
-              chartName: value,
+              name: value,
             });
           }}
         />
       </div>
-      <div className="margin-16"/>
       <List
         grid={{
           gutter: 16,
@@ -107,7 +106,7 @@ const MyChartPage: React.FC = () => {
                 // @ts-ignore
                 avatar={<Avatar src={currentUser.userAvatar} />}
                 // @ts-ignore
-                title={item.chartName}
+                title={item.name}
                 // @ts-ignore
                 description={'图表类型：' + item.chartType}
               />

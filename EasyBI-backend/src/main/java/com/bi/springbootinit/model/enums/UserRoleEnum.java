@@ -12,9 +12,17 @@ import org.apache.commons.lang3.ObjectUtils;
  * 
  */
 public enum UserRoleEnum {
-
+    /**
+     * 用户
+     */
     USER("用户", "user"),
+    /**
+     * 管理员
+     */
     ADMIN("管理员", "admin"),
+    /**
+     * 账户封禁
+     */
     BAN("被封号", "ban");
 
     private final String text;
@@ -29,7 +37,7 @@ public enum UserRoleEnum {
     /**
      * 获取值列表
      *
-     * @return
+     * @return 所有枚举值
      */
     public static List<String> getValues() {
         return Arrays.stream(values()).map(item -> item.value).collect(Collectors.toList());
@@ -38,8 +46,8 @@ public enum UserRoleEnum {
     /**
      * 根据 value 获取枚举
      *
-     * @param value
-     * @return
+     * @param value 枚举值
+     * @return 该枚举
      */
     public static UserRoleEnum getEnumByValue(String value) {
         if (ObjectUtils.isEmpty(value)) {

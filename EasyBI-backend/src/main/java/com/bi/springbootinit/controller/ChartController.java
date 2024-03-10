@@ -8,17 +8,20 @@ import com.bi.springbootinit.common.BaseResponse;
 import com.bi.springbootinit.common.DeleteRequest;
 import com.bi.springbootinit.common.ErrorCode;
 import com.bi.springbootinit.common.ResultUtils;
+import com.bi.springbootinit.config.ThreadPoolExecutorConfig;
 import com.bi.springbootinit.constant.CommonConstant;
 import com.bi.springbootinit.constant.UserConstant;
 import com.bi.springbootinit.exception.BusinessException;
 import com.bi.springbootinit.exception.ThrowUtils;
 import com.bi.springbootinit.manager.AIManager;
+import com.bi.springbootinit.manager.RedisLimitManager;
 import com.bi.springbootinit.model.dto.chart.ChartAddRequest;
 import com.bi.springbootinit.model.dto.chart.ChartQueryRequest;
 import com.bi.springbootinit.model.dto.chart.ChartUpdateRequest;
 import com.bi.springbootinit.model.dto.chart.GenChartRequest;
 import com.bi.springbootinit.model.entity.Chart;
 import com.bi.springbootinit.model.entity.User;
+import com.bi.springbootinit.model.enums.ChartStateEnum;
 import com.bi.springbootinit.model.vo.BIResponse;
 import com.bi.springbootinit.service.ChartService;
 import com.bi.springbootinit.service.UserService;
@@ -27,6 +30,7 @@ import com.bi.springbootinit.utils.SqlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +41,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 生成图表接口
@@ -57,7 +65,10 @@ public class ChartController {
     private AIManager aiManager;
 
     @Resource
-    RedissonClient redissonClient;
+    RedisLimitManager redisLimitManager;
+
+    @Resource
+    private ThreadPoolExecutor threadPoolExecutor;
 
     /**
      * 生成图表
@@ -149,7 +160,7 @@ public class ChartController {
     }
 
     /**
-     * 生成图表
+     * 生成图表 （同步）
      *
      * @param multipartFile 上传的文件
      * @param genChartRequest 生成图表所需信息
@@ -165,64 +176,36 @@ public class ChartController {
         User loginUser = userService.getLoginUser(request);
         long modelId = 1709156902984093697L;
         // 限流
-        redissonClient.getRateLimiter("genChart_" + loginUser.getId());
+        redisLimitManager.doRateLimit("genChart_" + loginUser.getId());
 
-        // 参数校验
-        ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
-        ThrowUtils.throwIf(StringUtils.isNotBlank(chartName) && chartName.length() >= 100,
-                ErrorCode.PARAMS_ERROR, "表名过长");
-
-        // 文件校验
-        final long ONE_MB = 1024 * 1024L;
-        long size = multipartFile.getSize();
-        ThrowUtils.throwIf(size > ONE_MB, ErrorCode.PARAMS_ERROR, "文件过大");
-        String originalFilename = multipartFile.getOriginalFilename();
-        String suffix = FileUtil.getSuffix(originalFilename);
-        List<String> suffixes = Arrays.asList("xlsx", "xls");
-        ThrowUtils.throwIf(!suffixes.contains(suffix), ErrorCode.PARAMS_ERROR, "文件后缀非法");
-
-        // 拼接输入
-        StringBuilder input = new StringBuilder();
-        input.append("Analysis goal: ");
-        String userGoal = goal;
-        if (chartType != null) {
-            userGoal += "，请使用" + chartType;
-        }
-        input.append(userGoal).append("\n");
-        String data = ExcelUtils.excelToCsv(multipartFile);
-        input.append("Raw data:").append("\n");
-        input.append(data).append("\n");
-        System.out.println(input);
-
-        String result = aiManager.doChat(modelId, input.toString());
-        String[] splits = result.split("【【【【【");
-        if (splits.length < 3) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "AI生成错误");
-        }
-        String genChart = splits[1].trim();
-        String genResult = splits[2].trim();
-
-        Chart chart = new Chart();
-        chart.setChartName(chartName);
-        chart.setGenChart(genChart);
-        chart.setChartData(data);
-        chart.setChartType(chartType);
-        chart.setUserId(loginUser.getId());
-        chart.setGoal(goal);
-        chart.setGenResult(genResult);
-        chart.setStatus("succeed");
-        boolean save = chartService.save(chart);
-        if (!save) {
-            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "保存图表到数据库失败");
-        }
-
-        BIResponse response = new BIResponse();
-        response.setChartId(chart.getId());
-        response.setGenChart(genChart);
-        response.setGenResult(genResult);
+        BIResponse response = chartService.genChart(multipartFile, chartType, goal, chartName, loginUser, modelId);
         return ResultUtils.success(response);
     }
 
+    /**
+     * 生成图表 （异步）
+     *
+     * @param multipartFile 上传的文件
+     * @param genChartRequest 生成图表所需信息
+     * @param request 前端请求
+     * @return 生成图表
+     */
+    @PostMapping("/gen/async")
+    public BaseResponse<BIResponse> genChartAsync(@RequestPart("file") MultipartFile multipartFile,
+                                             GenChartRequest genChartRequest, HttpServletRequest request) {
+        String chartType = genChartRequest.getChartType();
+        String goal = genChartRequest.getGoal();
+        String chartName = genChartRequest.getChartName();
+        User loginUser = userService.getLoginUser(request);
+        long modelId = 1709156902984093697L;
+
+        // 限流
+        redisLimitManager.doRateLimit("genChart_" + loginUser.getId());
+
+        BIResponse response = chartService.genChartAsync(multipartFile, chartType, goal, chartName, loginUser, modelId);
+
+        return ResultUtils.success(response);
+    }
 
 
 //    /**
