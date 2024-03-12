@@ -40,6 +40,11 @@ public class FailedChartInput implements Serializable {
     @TableLogic
     private Integer isDelete;
 
+    /**
+     * 重试次数
+     */
+    private Integer tryTimes;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }

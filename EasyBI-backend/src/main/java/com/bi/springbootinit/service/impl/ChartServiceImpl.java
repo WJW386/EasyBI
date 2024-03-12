@@ -15,6 +15,7 @@ import com.bi.springbootinit.model.entity.FailedChartInput;
 import com.bi.springbootinit.model.entity.User;
 import com.bi.springbootinit.model.enums.ChartStateEnum;
 import com.bi.springbootinit.model.vo.BIResponse;
+import com.bi.springbootinit.mq.BiMessageProducer;
 import com.bi.springbootinit.service.ChartService;
 import com.bi.springbootinit.service.FailedChartInputService;
 import com.bi.springbootinit.utils.ExcelUtils;
@@ -46,6 +47,9 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
 
     @Resource
     private FailedChartInputService failedChartInputService;
+
+    @Resource
+    private BiMessageProducer biMessageProducer;
 
     @Override
     public QueryWrapper<Chart> getQueryWrapper(ChartQueryRequest chartQueryRequest) {
@@ -123,14 +127,14 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
                 updateChart.setStatus(ChartStateEnum.RUNNING.getValue());
                 boolean updateResult = this.updateById(updateChart);
                 if (!updateResult) {
-                    handleChartUpdateError(chart.getId(), "更新图表状态为Running失败", input.toString());
+                    handleChartUpdateError(chart.getId(), "更新图表状态为Running失败");
                     return;
                 }
                 // 开始执行任务
                 String result = aiManager.doChat(modelId, input.toString());
                 String[] splits = result.split("【【【【【");
                 if (splits.length < 3) {
-                    handleChartUpdateError(chart.getId(), "AI生成错误", input.toString());
+                    handleChartUpdateError(chart.getId(), "AI生成错误");
                 }
                 String genChart = splits[1].trim();
                 String genResult = splits[2].trim();
@@ -146,7 +150,7 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
             }, threadPoolExecutor);
         } catch (RejectedExecutionException e) {
             // 处理任务队列满了的情况
-            handleChartUpdateError(chart.getId(), "任务队列已满，无法处理更多任务", input.toString());
+            handleChartUpdateError(chart.getId(), "任务队列已满，无法处理更多任务");
         }
 
         BIResponse response = new BIResponse();
@@ -213,7 +217,56 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
     }
 
     @Override
-    public void handleChartUpdateError(long chartId, String execMessage, String input) {
+    public BIResponse genChartMQ(MultipartFile multipartFile, String chartType, String goal, String chartName, User loginUser, long modelId) {
+        // 参数校验
+        ThrowUtils.throwIf(StringUtils.isBlank(goal), ErrorCode.PARAMS_ERROR, "目标为空");
+        ThrowUtils.throwIf(StringUtils.isNotBlank(chartName) && chartName.length() >= 100,
+                ErrorCode.PARAMS_ERROR, "表名过长");
+
+        // 文件校验
+        final long ONE_MB = 1024 * 1024L;
+        long size = multipartFile.getSize();
+        ThrowUtils.throwIf(size > ONE_MB, ErrorCode.PARAMS_ERROR, "文件过大");
+        String originalFilename = multipartFile.getOriginalFilename();
+        String suffix = FileUtil.getSuffix(originalFilename);
+        List<String> suffixes = Arrays.asList("xlsx", "xls");
+        ThrowUtils.throwIf(!suffixes.contains(suffix), ErrorCode.PARAMS_ERROR, "文件后缀非法");
+
+        // 拼接输入
+        StringBuilder input = new StringBuilder();
+        input.append("Analysis goal: ");
+        String userGoal = goal;
+        if (chartType != null) {
+            userGoal += "，请使用" + chartType;
+        }
+        input.append(userGoal).append("\n");
+        String data = ExcelUtils.excelToCsv(multipartFile);
+        input.append("Raw data:").append("\n");
+        input.append(data).append("\n");
+
+        // 先将用户想要执行的任务保存到数据库中
+        Chart chart = new Chart();
+        chart.setChartName(chartName);
+        chart.setChartData(data);
+        chart.setChartType(chartType);
+        chart.setUserId(loginUser.getId());
+        chart.setGoal(goal);
+        chart.setStatus(ChartStateEnum.WAIT.getValue());
+        boolean save = this.save(chart);
+        if (!save) {
+            throw new BusinessException(ErrorCode.SYSTEM_ERROR, "保存图表到数据库失败");
+        }
+
+        // 向队列发送消息
+        biMessageProducer.sendMessage(String.valueOf(chart.getId()));
+
+        BIResponse response = new BIResponse();
+        response.setChartId(chart.getId());
+        return response;
+    }
+
+    @Override
+    public void handleChartUpdateError(long chartId, String execMessage) {
         Chart chart = new Chart();
         chart.setId(chartId);
         chart.setStatus(ChartStateEnum.FAILED.getValue());
@@ -222,7 +275,6 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
         // 把失败图表input存入图表信息表，用于定时任务重试
         FailedChartInput failedChartInput = new FailedChartInput();
         failedChartInput.setId(chartId);
-        failedChartInput.setInput(input);
 
         boolean update = this.updateById(chart);
         if (!update) {
@@ -235,6 +287,22 @@ public class ChartServiceImpl extends ServiceImpl<ChartMapper, Chart>
         }
     }
 
+    @Override
+    public String buildInput(Chart chart) {
+        // 拼接输入
+        StringBuilder input = new StringBuilder();
+        input.append("Analysis goal: ");
+        String userGoal = chart.getGoal();
+        String chartType = chart.getChartType();
+        if (chartType != null) {
+            userGoal += "，请使用" + chartType;
+        }
+        input.append(userGoal).append("\n");
+        String data = chart.getChartData();
+        input.append("Raw data:").append("\n");
+        input.append(data).append("\n");
+        return input.toString();
+    }
 }
 
 

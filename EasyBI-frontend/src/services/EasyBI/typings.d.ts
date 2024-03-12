@@ -129,6 +129,7 @@ declare namespace API {
     pageSize?: number;
     sortField?: string;
     sortOrder?: string;
+    status?: string;
     updateTime?: string;
     userId?: number;
   };
@@ -145,6 +146,13 @@ declare namespace API {
   };
 
   type genChartAsyncUsingPOSTParams = {
+    chartName?: string;
+    chartType?: string;
+    goal?: string;
+    id?: number;
+  };
+
+  type genChartMqUsingPOSTParams = {
     chartName?: string;
     chartType?: string;
     goal?: string;

@@ -95,7 +95,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
 
   if (!currentUser || !currentUser.userName) {
     // console.log("userName: ",currentUser?.data.userName)
-    // console.log(currentUser)
+    console.log(currentUser)
     return loading;
   }
 

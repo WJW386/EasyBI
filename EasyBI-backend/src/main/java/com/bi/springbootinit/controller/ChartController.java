@@ -46,6 +46,8 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.bi.springbootinit.constant.CommonConstant.MODEL_ID;
+
 /**
  * 生成图表接口
  * @author Willow
@@ -174,11 +176,10 @@ public class ChartController {
         String goal = genChartRequest.getGoal();
         String chartName = genChartRequest.getChartName();
         User loginUser = userService.getLoginUser(request);
-        long modelId = 1709156902984093697L;
         // 限流
         redisLimitManager.doRateLimit("genChart_" + loginUser.getId());
 
-        BIResponse response = chartService.genChart(multipartFile, chartType, goal, chartName, loginUser, modelId);
+        BIResponse response = chartService.genChart(multipartFile, chartType, goal, chartName, loginUser, MODEL_ID);
         return ResultUtils.success(response);
     }
 
@@ -197,12 +198,35 @@ public class ChartController {
         String goal = genChartRequest.getGoal();
         String chartName = genChartRequest.getChartName();
         User loginUser = userService.getLoginUser(request);
-        long modelId = 1709156902984093697L;
 
         // 限流
         redisLimitManager.doRateLimit("genChart_" + loginUser.getId());
 
-        BIResponse response = chartService.genChartAsync(multipartFile, chartType, goal, chartName, loginUser, modelId);
+        BIResponse response = chartService.genChartAsync(multipartFile, chartType, goal, chartName, loginUser, MODEL_ID);
+
+        return ResultUtils.success(response);
+    }
+
+    /**
+     * 生成图表 （异步使用RabbitMQ）
+     *
+     * @param multipartFile 上传的文件
+     * @param genChartRequest 生成图表所需信息
+     * @param request 前端请求
+     * @return 生成图表
+     */
+    @PostMapping("/gen/mq")
+    public BaseResponse<BIResponse> genChartMq(@RequestPart("file") MultipartFile multipartFile,
+                                                  GenChartRequest genChartRequest, HttpServletRequest request) {
+        String chartType = genChartRequest.getChartType();
+        String goal = genChartRequest.getGoal();
+        String chartName = genChartRequest.getChartName();
+        User loginUser = userService.getLoginUser(request);
+
+        // 限流
+        redisLimitManager.doRateLimit("genChart_" + loginUser.getId());
+
+        BIResponse response = chartService.genChartMQ(multipartFile, chartType, goal, chartName, loginUser, MODEL_ID);
 
         return ResultUtils.success(response);
     }

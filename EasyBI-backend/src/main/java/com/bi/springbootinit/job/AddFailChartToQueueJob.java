@@ -20,6 +20,8 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import static com.bi.springbootinit.constant.CommonConstant.MODEL_ID;
+
 /**
  * 定时把生成失败的图表放回队列，进行补偿
  *
@@ -46,7 +48,6 @@ public class AddFailChartToQueueJob {
      */
 //    @Scheduled(fixedRate = 600 * 1000)
     public void run() {
-        long modelId = 1709156902984093697L;
         // 获取所有标记为失败的任务输入
         QueryWrapper<FailedChartInput> failedChartInputQueryWrapper = new QueryWrapper<>();
         List<FailedChartInput> failedChartsInput = failedChartInputService.list(failedChartInputQueryWrapper);
@@ -55,13 +56,15 @@ public class AddFailChartToQueueJob {
         }
         //
         for (FailedChartInput failedChartInput : failedChartsInput) {
-            String input = failedChartInput.getInput();
             Long id = failedChartInput.getId();
             Chart chart = chartService.getById(id);
-            if (!chart.getStatus().equals(ChartStateEnum.FAILED.getValue())) {
+            if (!chart.getStatus().equals(ChartStateEnum.FAILED.getValue()) || failedChartInput.getTryTimes() >= 3) {
                 failedChartInputService.removeById(id);
                 continue;
             }
+            FailedChartInput updateFailedChart = new FailedChartInput();
+            updateFailedChart.setId(id);
+            updateFailedChart.setTryTimes(failedChartInput.getTryTimes() + 1);
             try {
                 CompletableFuture.runAsync(() -> {
                         // 修改状态为执行中
@@ -70,14 +73,15 @@ public class AddFailChartToQueueJob {
                         updateChart.setStatus(ChartStateEnum.RUNNING.getValue());
                         boolean updateResult = chartService.updateById(updateChart);
                         if (!updateResult) {
-                            chartService.handleChartUpdateError(chart.getId(), "更新图表状态为Running失败", input.toString());
+                            chartService.handleChartUpdateError(chart.getId(), "更新图表状态为Running失败");
                             return;
                         }
+                        String input = chartService.buildInput(chart);
                         // 开始执行任务
-                        String result = aiManager.doChat(modelId, input.toString());
+                        String result = aiManager.doChat(MODEL_ID, input);
                         String[] splits = result.split("【【【【【");
                         if (splits.length < 3) {
-                            chartService.handleChartUpdateError(chart.getId(), "AI生成错误", input.toString());
+                            chartService.handleChartUpdateError(chart.getId(), "AI生成错误");
                         }
                         String genChart = splits[1].trim();
                         String genResult = splits[2].trim();
@@ -98,7 +102,7 @@ public class AddFailChartToQueueJob {
                     }, threadPoolExecutor);
             } catch (RejectedExecutionException e) {
                 // 处理任务队列满了的情况
-                chartService.handleChartUpdateError(chart.getId(), "任务队列已满，无法处理更多任务", input);
+                chartService.handleChartUpdateError(chart.getId(), "任务队列已满，无法处理更多任务");
             }
         }
     }

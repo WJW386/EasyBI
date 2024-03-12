@@ -10,10 +10,11 @@
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
             <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
             <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+            <result property="tryTimes" column="try_times" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,input,create_time,
-        update_time,is_delete
+        update_time,is_delete, tryTimes
     </sql>
 </mapper>
